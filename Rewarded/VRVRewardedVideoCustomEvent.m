@@ -8,13 +8,15 @@
 
 #import "VRVRewardedVideoCustomEvent.h"
 #import "MPRewardedVideoReward.h"
-#import <verveSDK/verveSDK.h>
+#import "VRVMoPubRewardedViewController.h"
+#import <verveSDK/VRVRewardedAd.h>
 
-@interface VRVRewardedVideoCustomEvent () <VRVFSAdDelegate>
+@interface VRVRewardedVideoCustomEvent ()
 
 @property (nonatomic) NSString *appId;
 @property (nonatomic) NSString *zone;
 @property (nonatomic) BOOL adLoaded;
+@property (nonatomic) VRVMoPubRewardedViewController *viewController;
 
 @end
 
@@ -26,7 +28,8 @@
         _appId = @"";
         _zone = @"";
         _adLoaded = NO;
-        [[VRVFSAdHandler sharedHandler] setFSAdDelegate:self];
+        _viewController = [[VRVMoPubRewardedViewController alloc] initWithCustomEvent:self];
+        [VRVRewardedAd setRewardedAdDelegate:_viewController];
     }
     return self;
 }
@@ -41,7 +44,7 @@
         }
         if([info objectForKey:@"zone"]) {
             self.zone = info[@"zone"];
-            [[VRVFSAdHandler sharedHandler] loadFSAdForZone:self.zone];
+            [VRVRewardedAd loadRewardedAdForZone:self.zone];
         } else {
             NSLog(@"Please ensure that you have added zone in the MoPub Dashboard");
             return;
@@ -52,7 +55,7 @@
     }
 }
 
-- (void)onFSAdClosedForZone:(nonnull NSString *)zone {
+- (void)rewardedAdClosedForZone:(nonnull NSString *)zone {
     if ([zone isEqualToString:self.zone]) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoWillDisappearForCustomEvent:)]) {
             [self.delegate rewardedVideoWillDisappearForCustomEvent:self];
@@ -63,7 +66,7 @@
     }
 }
 
-- (void)onFSAdFailedForZone:(nonnull NSString *)zone {
+- (void)rewardedAdFailedForZone:(nonnull NSString *)zone {
     if ([zone isEqualToString:self.zone]) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoDidFailToLoadAdForCustomEvent:error:)]) {
             [self.delegate rewardedVideoDidFailToLoadAdForCustomEvent:self error:nil];
@@ -71,7 +74,7 @@
     }
 }
 
-- (void)onFSAdReadyForZone:(nonnull NSString *)zone {
+- (void)rewardedAdReadyForZone:(nonnull NSString *)zone {
     if ([zone isEqualToString:self.zone]) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoDidLoadAdForCustomEvent:)]) {
             [self.delegate rewardedVideoDidLoadAdForCustomEvent:self];
@@ -80,7 +83,7 @@
     }
 }
 
-- (void)onFSAdRewardedForZone:(NSString *)zone {
+- (void)rewardedAdRewardedForZone:(nonnull NSString *)zone {
     if ([zone isEqualToString:self.zone]) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoShouldRewardUserForCustomEvent:reward:)]) {
             MPRewardedVideoReward *reward = [[MPRewardedVideoReward alloc] initWithCurrencyType:kMPRewardedVideoRewardCurrencyTypeUnspecified
@@ -96,13 +99,17 @@
 
 - (void)presentRewardedVideoFromViewController:(UIViewController *)viewController {
     if (self.adLoaded) {
-        [[VRVFSAdHandler sharedHandler] showFSAdForZone:self.zone inViewController:viewController];
         if (self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoWillAppearForCustomEvent:)]) {
             [self.delegate rewardedVideoWillAppearForCustomEvent:self];
         }
-        if (self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoDidAppearForCustomEvent:)]) {
-            [self.delegate rewardedVideoDidAppearForCustomEvent:self];
-        }
+        [viewController presentViewController:self.viewController animated:NO completion:^{
+            [VRVRewardedAd showRewardedAdForZone:self.zone];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(rewardedVideoDidAppearForCustomEvent:)]) {
+                [self.delegate rewardedVideoDidAppearForCustomEvent:self];
+            }
+        }];
+    } else {
+        NSLog(@"Verve SDK: 'presentRewardedVideoFromViewController:' was called before rewarded ad was ready");
     }
 }
 

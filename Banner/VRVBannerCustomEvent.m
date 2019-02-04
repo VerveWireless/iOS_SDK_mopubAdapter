@@ -39,7 +39,8 @@
         }
         if([info objectForKey:@"zone"]) {
             self.zone = info[@"zone"];
-            VRVBannerAdView *bannerAd = [[VRVBannerAdView alloc] initWithDelegate:self andRootVC:[UIViewController new]];
+            VRVBannerAdSize bannerSize = [self calculateBannerSizeFromCGSize:size];
+            VRVBannerAdView *bannerAd = [[VRVBannerAdView alloc] initWithDelegate:self bannerSize:bannerSize andRootVC:[UIViewController new]];
             self.bannerAd = bannerAd;
         } else {
             NSLog(@"Please ensure that you have added zone in the MoPub Dashboard");
@@ -48,6 +49,21 @@
     } else {
         NSLog(@"Please ensure that you have added the appID and zone in the MoPub Dashboard");
         return;
+    }
+}
+
+- (VRVBannerAdSize)calculateBannerSizeFromCGSize:(CGSize)size {
+    CGFloat width = size.width;
+    CGFloat height = size.height;
+    
+    if (width == 320 && height == 50) {
+        return VRVBannerSizeBanner;
+    } else if (width == 728 && height == 90) {
+        return VRVBannerSizeTabletBanner;
+    } else if (width == 300 && height == 250) {
+        return VRVBannerSizeMedRectangle;
+    } else {
+        return VRVBannerSizeBanner;
     }
 }
 

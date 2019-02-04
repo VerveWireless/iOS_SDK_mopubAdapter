@@ -6,12 +6,16 @@
 //  Copyright © 2019 Verve. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "MPRewardedVideoCustomEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface VRVRewardedVideoCustomEvent : MPRewardedVideoCustomEvent
+
+- (void)rewardedAdClosedForZone:(nonnull NSString *)zone;
+- (void)rewardedAdFailedForZone:(nonnull NSString *)zone;
+- (void)rewardedAdReadyForZone:(nonnull NSString *)zone;
+- (void)rewardedAdRewardedForZone:(nonnull NSString *)zone;
 
 @end
 
