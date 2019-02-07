@@ -31,12 +31,12 @@
 
 - (void)onRewardedAdClosedForZone:(nonnull NSString *)zone {
     [self.customEvent rewardedAdClosedForZone:zone];
-    [self removeFromParentViewController];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)onRewardedAdFailedForZone:(nonnull NSString *)zone {
     [self.customEvent rewardedAdFailedForZone:zone];
-    [self removeFromParentViewController];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)onRewardedAdReadyForZone:(nonnull NSString *)zone {

@@ -31,12 +31,12 @@
 
 - (void)onInterstitialAdClosedForZone:(nonnull NSString *)zone {
     [self.customEvent interstitialAdClosedForZone:zone];
-    [self removeFromParentViewController];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)onInterstitialAdFailedForZone:(nonnull NSString *)zone {
     [self.customEvent interstitialAdFailedForZone:zone];
-    [self removeFromParentViewController];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)onInterstitialAdReadyForZone:(nonnull NSString *)zone {
