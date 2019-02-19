@@ -40,7 +40,7 @@
         if([info objectForKey:@"zone"]) {
             self.zone = info[@"zone"];
             VRVBannerAdSize bannerSize = [self calculateBannerSizeFromCGSize:size];
-            VRVBannerAdView *bannerAd = [[VRVBannerAdView alloc] initWithDelegate:self bannerSize:bannerSize andRootVC:[UIViewController new]];
+            VRVBannerAdView *bannerAd = [[VRVBannerAdView alloc] initWithDelegate:self appID:self.appId bannerSize:bannerSize andRootVC:[UIViewController new]];
             self.bannerAd = bannerAd;
         } else {
             NSLog(@"Please ensure that you have added zone in the MoPub Dashboard");

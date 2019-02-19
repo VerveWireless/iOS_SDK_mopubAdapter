@@ -28,7 +28,6 @@
         _zone = @"";
         _adLoaded = NO;
         _viewController = [[VRVMoPubInterstitialViewController alloc] initWithCustomEvent:self];
-        [VRVInterstitialAd setInterstitialAdDelegate:_viewController];
     }
     return self;
 }
@@ -43,6 +42,7 @@
         }
         if([info objectForKey:@"zone"]) {
             self.zone = info[@"zone"];
+            [VRVInterstitialAd setInterstitialAdDelegate:self.viewController appID:self.appId];
             [VRVInterstitialAd loadInterstitialAdForZone:self.zone];
         } else {
             NSLog(@"Please ensure that you have added zone in the MoPub Dashboard");
