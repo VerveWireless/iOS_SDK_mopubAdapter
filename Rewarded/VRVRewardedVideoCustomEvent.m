@@ -9,7 +9,7 @@
 #import "VRVRewardedVideoCustomEvent.h"
 #import "MPRewardedVideoReward.h"
 #import "VRVMoPubRewardedViewController.h"
-#import <verveSDK/VRVRewardedAd.h>
+#import <VerveAd/VRVRewardedAd.h>
 
 @interface VRVRewardedVideoCustomEvent ()
 

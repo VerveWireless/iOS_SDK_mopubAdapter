@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <verveSDK/VRVInterstitialAd.h>
+#import <VerveAd/VRVInterstitialAd.h>
 #import "VRVInterstitialCustomEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN

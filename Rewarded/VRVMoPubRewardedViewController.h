@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <verveSDK/VRVRewardedAd.h>
+#import <VerveAd/VRVRewardedAd.h>
 #import "VRVRewardedVideoCustomEvent.h"
 
 NS_ASSUME_NONNULL_BEGIN

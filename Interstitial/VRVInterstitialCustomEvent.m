@@ -8,7 +8,7 @@
 
 #import "VRVInterstitialCustomEvent.h"
 #import "VRVMoPubInterstitialViewController.h"
-#import <verveSDK/VRVInterstitialAd.h>
+#import <VerveAd/VRVInterstitialAd.h>
 
 @interface VRVInterstitialCustomEvent ()
 

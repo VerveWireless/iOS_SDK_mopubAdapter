@@ -7,7 +7,7 @@
 //
 
 #import "VRVBannerCustomEvent.h"
-#import <verveSDK/VRVBannerAdView.h>
+#import <VerveAd/VRVBannerAdView.h>
 
 @interface VRVBannerCustomEvent () <VRVBannerAdDelegate>
 
